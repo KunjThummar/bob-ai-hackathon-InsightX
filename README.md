@@ -1,4 +1,4 @@
-# 🚀 InsightX — Mission Readiness & Predictive Maintenance Copilot
+# 🚀 Mission Readiness & Predictive Maintenance Copilot
 
 > AI-powered fleet health monitoring dashboard built for the IBM Bob AI Hackathon.
 
