@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Model artefacts
+app/models/*.pkl
+app/data/fleet_predictions.json
+app/data/engine_scores.csv
+
+# OS
+.DS_Store
+Thumbs.db

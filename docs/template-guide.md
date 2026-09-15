@@ -1,337 +1,340 @@
-# Bob AI Innovation Hackathon Submission Template — Complete Guide
+﻿# InsightX — Bob AI Innovation Hackathon Submission Guide
 
-This guide explains how to use the
-[bob-ai-hackathon-submission-template](https://github.com/drijesh-ppatel/bob-ai-hackathon-submission-template)
-to structure and submit your hackathon entry.
+This document explains how the **InsightX** submission is structured and how
+evaluators can navigate, run, and assess it.
 
 ---
 
 ## Table of Contents
 
 1. [Overview](#1-overview)
-2. [Getting Started — Use the Template](#2-getting-started--use-the-template)
+2. [Team](#2-team)
 3. [Repository Structure](#3-repository-structure)
 4. [File-by-File Walkthrough](#4-file-by-file-walkthrough)
-   - [submission.yaml](#41-submissionyaml--most-important)
+   - [submission.yaml](#41-submissionyaml)
    - [README.md](#42-readmemd)
    - [docs/](#43-docs)
    - [src/](#44-src)
    - [demo/](#45-demo)
    - [presentation/](#46-presentation)
-5. [Automated Validation](#5-automated-validation)
+5. [How to Run](#5-how-to-run)
 6. [Submission Checklist](#6-submission-checklist)
-7. [How Your Entry Is Evaluated](#7-how-your-entry-is-evaluated)
-8. [Common Mistakes](#8-common-mistakes)
+7. [How Our Entry Is Evaluated](#7-how-our-entry-is-evaluated)
+8. [Known Limitations](#8-known-limitations)
 9. [FAQ](#9-faq)
 
 ---
 
 ## 1. Overview
 
-The template gives every team a consistent, well-structured repository so that:
+**InsightX** is a Mission Readiness & Predictive Maintenance Copilot built for
+the IBM Bob AI Hackathon. It ingests NASA C-MAPSS FD001 turbofan engine
+telemetry, computes per-asset health scores using machine learning, and
+surfaces priority-ranked maintenance actions through a React dashboard. A
+Google Gemini-powered AI Copilot translates ML outputs into natural-language
+health summaries for non-expert users.
 
-- Judges can find what they need without hunting through your repo
-- The automated validation GitHub Action can check your submission is complete
-- Your entry is evaluated fairly against the same rubric as every other team
-
-**One template → one repo per team. Do not share repos across teams.**
+**Track:** AI
+**Team:** InsightX (Daksh Vekariya, Kunj Thummar, Jayrajsinh Barad)
 
 ---
 
-## 2. Getting Started — Use the Template
+## 2. Team
 
-### Step 1 — Create your repo from the template
-
-1. Go to **[github.com/drijesh-ppatel/bob-ai-hackathon-submission-template](https://github.com/drijesh-ppatel/bob-ai-hackathon-submission-template)**
-2. Click the green **"Use this template"** button → **"Create a new repository"**
-
-   > ⚠️ Use **"Use this template"**, not "Fork". A fork shows as derived from the
-   > template in GitHub's UI and carries unnecessary history. The template button
-   > gives you a clean, independent repo.
-
-3. Name your repo: **`bob-ai-hackathon-[your-team-name]`**
-   (e.g., `bob-ai-hackathon-orion-squad`, `bob-ai-hackathon-team-phoenix`)
-4. Set visibility to **Public** — judges need to access it
-5. Click **"Create repository"**
-
-### Step 2 — Clone your new repo locally
-
-```bash
-git clone https://github.com/[your-github-username]/bob-ai-hackathon-[your-team-name].git
-cd bob-ai-hackathon-[your-team-name]
-```
-
-### Step 3 — Fill in your content (see section 4 below)
-
-### Step 4 — Push and verify the GitHub Action passes
-
-```bash
-git add .
-git commit -m "feat: initial submission"
-git push
-```
-
-Then go to your repo → **Actions** tab → confirm **✅ Validate Submission** is green.
-
-### Step 5 — Submit your repo URL via the entry form
+| Field | Value |
+|---|---|
+| **Team Name** | InsightX |
+| **Track** | AI |
+| **Team Lead** | Daksh Vekariya — 24IT107@charusat.edu.in |
+| **Members** | Kunj Thummar (24ce128@charusat.edu.in), Jayrajsinh Barad (24ce006@charusat.edu.in) |
 
 ---
 
 ## 3. Repository Structure
 
 ```
-bob-ai-hackathon-[your-team-name]/
-│
-├── submission.yaml          ← Structured metadata — READ BY EVALUATORS FIRST
-├── README.md                ← Project overview — human-readable entry point
-│
-├── src/                     ← All your source code goes here
-│   ├── .env.example         ← Template for environment variables
-│   └── README.md            ← Brief note on src/ layout
-│
-├── docs/                    ← Written documentation
-│   ├── problem-statement.md ← What problem you're solving and why it matters
-│   ├── solution-overview.md ← How your solution works
-│   ├── architecture.md      ← Technical architecture (diagram + explanation)
-│   └── setup-guide.md       ← Exact steps to run the project
-│
-├── demo/                    ← Demo artifacts
-│   ├── demo-video-link.txt  ← URL to your demo video (YouTube, Loom, Box)
-│   ├── live-demo-url.txt    ← URL to your deployed demo (or "NOT DEPLOYED")
-│   └── screenshots/         ← App screenshots (at least 3)
-│       └── README.md
-│
-├── presentation/            ← Slide deck (slides.pdf or slides.pptx)
-│
-├── CONTRIBUTING.md          ← Submission instructions (do not delete)
-├── .gitignore               ← Pre-configured — do not commit .env or node_modules
-└── .github/
-    └── workflows/
-        └── validate.yml     ← Automated submission validator (do not modify)
+bob-ai-hackathon-InsightX/
+|
++-- submission.yaml          <- Structured metadata - READ BY EVALUATORS FIRST
++-- README.md                <- Project overview - human-readable entry point
+|
++-- src/                     <- All source code
+|   +-- .env.example         <- Template for environment variables
+|   +-- README.md            <- Architecture, ML pipeline, API reference
+|   +-- backend/             <- FastAPI Python backend
+|   |   +-- app/
+|   |   |   +-- main.py      <- FastAPI entry point
+|   |   |   +-- routes/      <- API endpoint handlers
+|   |   |   +-- services/    <- ML inference, Gemini, dataset logic
+|   |   |   +-- schemas/     <- Pydantic models
+|   |   |   +-- models/      <- Saved .pkl model files (pre-trained)
+|   |   |   +-- data/        <- actual_dataset.csv (NASA C-MAPSS FD001)
+|   |   +-- scripts/
+|   |   |   +-- download_dataset.py   <- Downloads dataset from HuggingFace
+|   |   |   +-- train_models.py       <- Trains RUL + anomaly models
+|   |   +-- requirements.txt
+|   +-- frontend/            <- React + Vite frontend
+|       +-- src/
+|       |   +-- pages/       <- Dashboard, Fleet, Maintenance, Copilot, etc.
+|       |   +-- components/  <- Reusable UI components
+|       |   +-- services/api.js
+|       +-- package.json
+|
++-- docs/                    <- Written documentation
+|   +-- problem-statement.md <- The industrial fleet monitoring problem
+|   +-- solution-overview.md <- How InsightX works conceptually
+|   +-- architecture.md      <- Technical architecture (diagram + explanation)
+|   +-- setup-guide.md       <- Exact steps to run the project locally
+|   +-- template-guide.md    <- This file - submission navigation guide
+|
++-- demo/                    <- Demo artifacts
+|   +-- demo-video-link.txt  <- URL to demo video
+|   +-- live-demo-url.txt    <- URL to deployed demo (or "NOT DEPLOYED")
+|   +-- screenshots/         <- App screenshots (at least 3)
+|
++-- presentation/            <- Slide deck (slides.pdf or slides.pptx)
+|
++-- CONTRIBUTING.md          <- Submission instructions
++-- .gitignore               <- Pre-configured
++-- .github/
+    +-- workflows/
+        +-- validate.yml     <- Automated submission validator
 ```
 
 ---
 
 ## 4. File-by-File Walkthrough
 
-### 4.1 `submission.yaml` — Most Important
+### 4.1 `submission.yaml`
 
-This is the **first file the evaluators read**. Fill it in carefully and completely.
+First file evaluators read. All required fields are filled:
 
-```yaml
-team:
-  name: "Orion Squad"                   # Your team name
-  track: "AI"                           # AI | DevOps | Sustainability | Open
-  lead:
-    name: "Alice Chen"
-    email: "alice.chen@ibm.com"
-  members:
-    - name: "Bob Singh"
-      email: "bob.singh@ibm.com"
-    - name: "Carol Yu"
-      email: "carol.yu@ibm.com"
-
-submission:
-  title: "SmartOps Dashboard"
-  problem_statement: >
-    DevOps teams at IBM spend 3+ hours per incident manually correlating
-    logs across 12 tools. This delays MTTR and causes alert fatigue for
-    on-call engineers.
-  solution_summary: >
-    SmartOps ingests logs from all observability tools via a unified
-    MCP connector and uses watsonx.ai to surface the root cause and
-    recommended fix in a single conversational interface.
-  key_features:
-    - "Unified log ingestion from Instana, PagerDuty, and GitHub Actions"
-    - "Root cause classification using watsonx.ai Granite 3.0"
-    - "Natural language incident summaries via IBM Bob integration"
-    - "One-click runbook execution"
-```
-
-**Rules:**
-- Every field marked `# REQUIRED` must be filled — blank strings will fail validation
-- Do not rename this file
+- **team.name**: InsightX
+- **team.track**: AI
+- **team.lead**: Daksh Vekaria (24IT107@charusat.edu.in)
+- **members**: Kunj Thummar, Jayrajsinh Barad, Harsh Thesiya
+- **title**: InsightX — Mission Readiness & Predictive Maintenance Copilot
+- **problem_statement**: Industrial fleets lack real-time asset health visibility
+- **solution_summary**: ML pipeline (Random Forest RUL + Isolation Forest) + Gemini Copilot
+- **key_features**: 5 specific implemented features
+- **tech_stack**: Python, FastAPI, React, scikit-learn, Google Gemini
+- **known_limitations**: Simulated benchmark data, prototype thresholds
 
 ---
 
 ### 4.2 `README.md`
 
-The README is the **human-readable front page** of your repo. Replace every
-`[placeholder in brackets]` with your actual content.
+Human-readable front page. Covers:
 
-Key sections to fill:
-
-| Section | What to write |
-|---|---|
-| **Team** | Team name, track, lead, members |
-| **Problem Statement** | 2–3 sentences: what problem, who experiences it |
-| **Solution** | 2–3 sentences: what you built, how it works |
-| **Key Features** | 3–5 specific implemented features |
-| **Tech Stack** | Languages, frameworks, IBM technologies used |
-| **How to Run** | Copy the exact commands from `docs/setup-guide.md` |
-| **Demo** | Links to video, live demo, screenshots |
-| **Known Limitations** | Honest gaps — judges appreciate transparency |
-| **What We're Most Proud Of** | Direct judges to your strongest work |
-
-> ✅ Before submitting, search the README for `[` — any remaining brackets mean
-> you missed a placeholder.
+- Team info and track
+- Problem statement (industrial fleet health monitoring)
+- Solution summary (ML pipeline + Gemini Copilot)
+- Key features with brief descriptions
+- Full tech stack table (Python, FastAPI, React, scikit-learn, Gemini)
+- Quick-start run commands (mirrored from `docs/setup-guide.md`)
+- Demo links (video, live URL, screenshots)
+- Known limitations (simulated data, prototype thresholds)
+- What we are most proud of (end-to-end ML pipeline faithfulness)
 
 ---
 
 ### 4.3 `docs/`
 
-Four files, each with a specific purpose:
+Four documentation files, each with a specific purpose:
 
 #### `docs/problem-statement.md`
-Go deeper than the README. Cover:
-- The specific audience affected
-- Why existing solutions don't solve it
-- Quantified pain if you have data (time lost, error rate, cost)
-- Why this problem matters *now*
+
+Covers the specific audience (maintenance engineers, fleet operators), why
+fixed-schedule maintenance fails for high-cycle machinery, quantified pain
+(unplanned downtime, cost overruns), and why no off-the-shelf tool surfaces
+per-asset readiness in real time.
 
 #### `docs/solution-overview.md`
-Explain how your solution works at a conceptual level:
-- The core mechanism (not just a feature list)
-- What makes it different from naive alternatives
-- Key design decisions and why you made them
-- What the user experience looks like
+
+Explains the core mechanism step by step:
+
+1. Telemetry ingestion from NASA C-MAPSS FD001 dataset
+2. Feature engineering — 10-cycle rolling mean, std, and trend per sensor
+3. RUL prediction (Random Forest) → RUL Score (0–100)
+4. Anomaly detection (Isolation Forest) → Anomaly Severity + Health
+5. Mission Readiness = `0.6 x RUL_Score + 0.4 x Anomaly_Health`
+6. Gemini Copilot generates natural-language explanation (non-modifying)
+
+Key design decisions (e.g., why Isolation Forest over statistical thresholds,
+why Gemini is explanatory-only) are documented in a table.
 
 #### `docs/architecture.md`
-Include:
-- A **Mermaid diagram** or image showing system components and data flow
-- A component table (technology, responsibility)
-- How data moves through the system end-to-end
-- Any relevant security or scalability notes
 
-Example diagram (replace with your own):
+Includes a Mermaid system diagram, a component responsibility table, a
+step-by-step data flow (from raw CSV to feature engineering to ML inference to
+API response to React dashboard), security notes (env vars, CORS), and
+scalability notes.
+
 ```mermaid
 graph TD
-    A[User] -->|Chat prompt| B[IBM Bob CLI]
-    B -->|MCP call| C[Your MCP Server]
-    C -->|API| D[watsonx.ai]
-    C -->|Query| E[PostgreSQL]
-    D -->|Response| B
+    A[User / Browser] -->|HTTP| B[React Frontend - Vite]
+    B -->|REST API calls| C[FastAPI Backend]
+    C -->|scikit-learn inference| D[RUL Model - RandomForest .pkl]
+    C -->|scikit-learn inference| E[Anomaly Model - IsolationForest .pkl]
+    C -->|google-genai SDK| F[Google Gemini API]
+    D -->|RUL Score| C
+    E -->|Anomaly Severity| C
+    F -->|Natural Language Summary| C
+    C -->|JSON response| B
+    G[NASA C-MAPSS FD001 CSV] -->|pandas read_csv| C
 ```
 
 #### `docs/setup-guide.md`
-This is the **most critical doc for judges**. Write it as if the reader has
-never seen your repo. Include:
 
-- All prerequisites (tools, accounts, versions)
-- Every environment variable (copy from `.env.example`)
-- Exact install commands
-- Exact run commands
-- How to verify it's working
-- A troubleshooting table for common errors
+The most critical doc for judges — fully written and tested. Covers:
 
-> ✅ Test your own setup guide on a clean machine or fresh terminal before submitting.
+- Prerequisites (Python 3.10+, Node 18+, optional Gemini API key)
+- Environment variables for both backend and frontend
+- Step-by-step install commands (venv, pip, npm)
+- Dataset download + model training scripts
+- Running both servers
+- URL table (frontend, backend, Swagger, health check)
+- Quick demo walkthrough per page/route
+- Troubleshooting table (10 common errors with exact fixes)
 
 ---
 
 ### 4.4 `src/`
 
-Put **all source code** inside this directory.
+All source code lives here:
 
 ```
 src/
-├── .env.example        ← List every environment variable with a description
-├── README.md           ← Brief description of what's in src/ and how it's organised
-├── [your code here]
++-- .env.example        <- All environment variables with descriptions
++-- README.md           <- Full architecture, ML pipeline, API reference
++-- backend/            <- FastAPI + ML (Python)
++-- frontend/           <- React 18 + Vite dashboard
 ```
 
-**Rules:**
-- `.env` is in `.gitignore` — never commit real credentials
-- Update `.env.example` with every variable your code needs (dummy values are fine)
-- Do not commit `node_modules/`, `__pycache__/`, `.venv/`, or build artefacts
+**Key rules followed:**
+- `.env` is gitignored — no real credentials committed
+- `.env.example` documents every required variable
+- `node_modules/`, `.venv/`, and build artefacts are excluded via `.gitignore`
+- Pre-trained `.pkl` models are committed so judges can skip re-training
+
+**ML Pipeline:**
+
+| Step | Detail |
+|---|---|
+| Feature engineering | 10-cycle rolling mean, std, trend per sensor (15 sensors, 64 total features) |
+| RUL model | RandomForestRegressor — n_estimators=150, max_depth=20, R2 approx 0.75 |
+| Anomaly model | IsolationForest — n_estimators=200, contamination=0.05 |
+| Readiness formula | clip(0.6 x RUL_Score + 0.4 x Anomaly_Health, 0, 100) |
+| Priority formula | clip(0.5*(100-RUL_Score) + 0.3*Anomaly_Severity + 0.2*(100-Readiness), 0, 100) |
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | /api/health | Health check |
+| GET | /api/fleet | All 200 assets latest health summary |
+| GET | /api/assets/{asset_id} | Detailed report + sensor evidence + history |
+| GET | /api/maintenance | Priority-ranked maintenance plan |
+| POST | /api/custom-prediction | Run ML on custom 10-cycle JSON telemetry |
+| POST | /api/custom-prediction/upload | Run ML on uploaded CSV |
+| GET | /api/copilot/{asset_id} | Gemini natural-language health explanation |
 
 ---
 
 ### 4.5 `demo/`
 
-Judges evaluate whether your project **actually works**. The demo folder is
-your evidence.
+| File | Content |
+|---|---|
+| `demo-video-link.txt` | URL to 3-5 min demo video showing app running end-to-end |
+| `live-demo-url.txt` | Deployed URL or NOT DEPLOYED |
+| `screenshots/` | At least 3 screenshots of the running application |
 
-#### `demo/demo-video-link.txt`
-Replace the placeholder with a URL to a **3–5 minute video** showing:
-1. The app starting up successfully
-2. A real user journey through the key feature
-3. Actual output being produced (not mocked)
-
-Accepted platforms: YouTube (unlisted), Loom, Box, Google Drive (view-only link)
-
-```
-# demo/demo-video-link.txt
-https://www.loom.com/share/your-actual-video-id
-```
-
-#### `demo/live-demo-url.txt`
-If your app is deployed, add the URL here. If not, write `NOT DEPLOYED`.
-
-#### `demo/screenshots/`
-Add **at least 3 screenshots** of the running application. Name them sequentially:
-```
-01-home-dashboard.png
-02-query-input.png
-03-result-output.png
-```
+Recommended screenshots:
+- `01-home-dashboard.png` — Fleet KPI cards + readiness distribution chart
+- `02-fleet-table.png` — Searchable/filterable asset table
+- `03-asset-detail.png` — Per-asset health report + sensor evidence
+- `04-maintenance-plan.png` — HIGH/MEDIUM/LOW maintenance plan
+- `05-copilot.png` — Gemini AI Copilot explanation page
 
 ---
 
 ### 4.6 `presentation/`
 
-Add your slide deck as `presentation/slides.pdf` (preferred) or `slides.pptx`.
+Slide deck at `presentation/slides.pdf` (or `.pptx`) covering:
 
-Your deck should cover (in order):
-1. Problem — who, what, why it hurts
-2. Solution — what you built and how it works
-3. Demo / architecture — key technical highlights
-4. IBM technology integration — where and how Bob/watsonx is used
-5. Impact — what this could become beyond the hackathon
+1. **Problem** — industrial fleet monitoring gap, unplanned downtime cost
+2. **Solution** — InsightX architecture and ML pipeline
+3. **Demo / Architecture** — Mermaid diagram + dashboard screenshots
+4. **IBM Technology Integration** — IBM Bob AI Hackathon platform usage
+5. **Impact** — how this scales to real defence/industrial deployments
 
 ---
 
-## 5. Automated Validation
+## 5. How to Run
 
-Every push to your repo triggers the **Validate Submission** GitHub Action
-(`.github/workflows/validate.yml`). It checks:
+> Full instructions in [`docs/setup-guide.md`](setup-guide.md)
 
-- `submission.yaml` exists and is valid YAML
-- Required fields in `submission.yaml` are not empty
-- `docs/setup-guide.md` exists
-- `demo/demo-video-link.txt` exists
+```bash
+# 1. Clone
+git clone https://github.com/KunjThummar/bob-ai-hackathon-InsightX.git
+cd bob-ai-hackathon-InsightX/src
 
-**To check your validation status:**
-1. Go to your repo on GitHub
-2. Click the **Actions** tab
-3. Look for the most recent **Validate Submission** run
-4. ✅ green = submission is structurally complete
-5. ❌ red = click the run, read the error, fix it, push again
+# 2. Backend
+cd backend
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # macOS/Linux
+pip install -r requirements.txt
 
-> ⚠️ Do not modify `.github/workflows/validate.yml` — it will be ignored if changed.
+# Skip if .pkl files already exist in backend/app/models/
+python scripts/download_dataset.py
+python scripts/train_models.py
+
+# 3. Create backend/.env
+# GEMINI_API_KEY=your_key_here
+# GEMINI_MODEL=gemini-2.5-flash
+# CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+
+# 4. Frontend
+cd ../frontend
+npm install
+
+# 5. Run (two terminals)
+# Terminal 1 - Backend:
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Terminal 2 - Frontend:
+npm run dev
+```
+
+| Service | URL |
+|---|---|
+| **Frontend** | http://localhost:5173 |
+| **Backend API** | http://localhost:8000 |
+| **Swagger UI** | http://localhost:8000/docs |
+| **Health Check** | http://localhost:8000/api/health |
 
 ---
 
 ## 6. Submission Checklist
 
-Work through this before clicking submit:
-
 **Content**
-- [ ] `submission.yaml` — all `# REQUIRED` fields filled
-- [ ] `README.md` — no `[placeholder]` text remaining
-- [ ] `docs/problem-statement.md` — written (not template text)
-- [ ] `docs/solution-overview.md` — written (not template text)
-- [ ] `docs/architecture.md` — diagram and explanation present
-- [ ] `docs/setup-guide.md` — tested end-to-end by a teammate
-- [ ] `src/` — all source code committed, `.env.example` updated
-- [ ] `demo/demo-video-link.txt` — real working video URL
-- [ ] `demo/screenshots/` — at least 3 screenshots of the running app
-- [ ] `presentation/slides.pdf` (or `.pptx`) — present
+- [x] `submission.yaml` — all required fields filled
+- [x] `README.md` — no placeholder text remaining
+- [x] `docs/problem-statement.md` — written with actual project content
+- [x] `docs/solution-overview.md` — written with actual project content
+- [x] `docs/architecture.md` — Mermaid diagram and explanation present
+- [x] `docs/setup-guide.md` — tested end-to-end, troubleshooting table included
+- [x] `src/` — all source code committed, `.env.example` updated
+- [ ] `demo/demo-video-link.txt` — replace placeholder with real video URL
+- [ ] `demo/screenshots/` — add at least 3 screenshots of the running app
+- [ ] `presentation/slides.pdf` — add slide deck
 
 **Technical**
-- [ ] No `.env` files committed (check `git log` if unsure)
-- [ ] No `node_modules/`, `.venv/`, or build artefacts committed
-- [ ] GitHub Actions **✅ Validate Submission** is green
-- [ ] Repository is **Public**
+- [x] No `.env` files committed (`.gitignore` covers `.env`)
+- [x] No `node_modules/`, `.venv/`, or build artefacts committed
+- [ ] GitHub Actions Validate Submission is green
+- [ ] Repository is Public
 
 **Submission**
 - [ ] Entry form submitted before the deadline
@@ -339,76 +342,52 @@ Work through this before clicking submit:
 
 ---
 
-## 7. How Your Entry Is Evaluated
+## 7. How Our Entry Is Evaluated
 
-Entries are scored on 6 criteria totalling **100 points**:
-
-| # | Criterion | Pts | What evaluators look for |
+| # | Criterion | Pts | InsightX Evidence |
 |---|---|---|---|
-| 1 | Technical Implementation Quality | 25 | Was it actually built, and built well? Reads source code, not just the README |
-| 2 | Innovation & Differentiation | 25 | Does it solve the problem in a non-obvious way? Anchored in the code |
-| 3 | Problem Depth & Vision | 15 | Does the team deeply understand the problem, not just the spec? |
-| 4 | Working Demo & Functionality | 15 | Does it actually run? Can a judge reproduce it? |
-| 5 | IBM Bob Integration | 10 | Is IBM Bob load-bearing in the solution, not just name-dropped? |
-| 6 | Documentation & Reproducibility | 10 | Can someone else understand, run, and build on this? |
-
-**What this means for you:**
-- Evaluators **read your source code** — a polished README with empty `src/` will score low
-- A working demo matters — partial functionality that runs scores better than complete scaffolding that doesn't
-- IBM Bob must be genuinely integrated, not just mentioned in docs
-- Honest `known_limitations` are respected — overclaiming hurts your score when the code doesn't match
+| 1 | Technical Implementation Quality | 25 | End-to-end ML pipeline in `src/backend/`; faithful C-MAPSS feature engineering; pre-trained models committed |
+| 2 | Innovation & Differentiation | 25 | Composite Mission Readiness formula; Gemini Copilot as explanatory (non-modifying) layer; custom telemetry prediction endpoint |
+| 3 | Problem Depth & Vision | 15 | `docs/problem-statement.md` — quantified downtime cost, specific persona, gap analysis |
+| 4 | Working Demo & Functionality | 15 | 7 API endpoints; 6 frontend pages; fully reproducible via `docs/setup-guide.md` |
+| 5 | IBM Bob Integration | 10 | Submitted through IBM Bob AI Hackathon platform |
+| 6 | Documentation & Reproducibility | 10 | Detailed setup guide, troubleshooting table, Swagger UI, pre-trained models |
 
 ---
 
-## 8. Common Mistakes
+## 8. Known Limitations
 
-| Mistake | How to avoid it |
+| Limitation | Detail |
 |---|---|
-| Leaving `[placeholder]` text in README | Search the file for `[` before pushing |
-| Committing `.env` with real credentials | Check `.gitignore` includes `.env`; use `git status` |
-| `demo-video-link.txt` still has the placeholder URL | Open the file and replace it with your real link |
-| Repository set to Private | Judges cannot access private repos — set to Public |
-| `src/` is empty or has only boilerplate | Your source code must be in `src/` |
-| Setup guide missing key steps | Test it yourself on a fresh terminal before submitting |
-| Video link requires special access | Use "anyone with link" permissions on Loom/YouTube/Box |
+| Simulated data | NASA C-MAPSS FD001 is a benchmark dataset, not real fleet telemetry |
+| Model accuracy | RUL model: MAE approx 24 cycles, RMSE approx 33, R2 approx 0.75 — prototype grade |
+| Readiness weights | 0.6/0.4 split is a prototype design choice, not domain-validated |
+| No authentication | All API routes are open — not production-ready |
+| Gemini dependency | Copilot requires a Gemini API key; falls back gracefully without one |
+| Train engines | C-MAPSS train engines are at end-of-life (RUL=0) so they appear CRITICAL by design |
 
 ---
 
 ## 9. FAQ
 
-**Q: Can we use our own repo structure inside `src/`?**
-Yes — the structure inside `src/` is entirely up to you. The top-level
-structure (the directories and files outside `src/`) must stay as-is.
+**Q: Where is the actual source code?**
+All code is inside `src/`. Backend is `src/backend/` (FastAPI + Python), frontend is `src/frontend/` (React + Vite).
 
-**Q: Our project has a monorepo with frontend and backend. Where does it go?**
-Put everything inside `src/`:
-```
-src/
-├── frontend/
-├── backend/
-└── README.md   ← explain the layout
-```
+**Q: Do I need a Gemini API key to run the app?**
+No — the Copilot page returns a deterministic fallback explanation if `GEMINI_API_KEY` is missing. All other pages work fully without it.
 
-**Q: Can we add extra files or directories?**
-Yes, at the top level or inside `src/`. Do not delete or rename any of
-the template files — the validation action and evaluators depend on them.
+**Q: Do I need to train the models?**
+Only if the `.pkl` files are missing from `src/backend/app/models/`. If they are committed, skip the download and train scripts. Training takes approximately 2-5 minutes.
 
-**Q: What if our demo isn't deployed?**
-Write `NOT DEPLOYED` in `demo/live-demo-url.txt`. Your demo video is
-the primary evidence — make sure it shows the app running locally.
+**Q: What dataset does this use?**
+NASA C-MAPSS FD001 turbofan engine simulation data from HuggingFace (`SoyVitou/NASA-C-MAPSS-Turbofan-Engine`). The combined dataset has 200 unique assets (100 train + 100 test engines).
 
-**Q: Can we update our submission after pushing?**
-Yes — keep pushing until the deadline. The evaluators use the state of
-your repo at the deadline, not the first push.
+**Q: What does Mission Readiness mean?**
+A 0-100 composite score: `clip(0.6 x RUL_Score + 0.4 x Anomaly_Health, 0, 100)`.
+>=80 = READY, >=50 = CAUTION, <50 = CRITICAL.
 
 **Q: The GitHub Action is failing — what do I do?**
-Click the failing run in the Actions tab, read the error message, and
-fix the issue it describes. The most common causes are:
-- Missing or empty required fields in `submission.yaml`
-- `submission.yaml` has invalid YAML syntax (check indentation and quotes)
-
-**Q: Do we need to keep `CONTRIBUTING.md`?**
-Yes — do not delete it. It is part of the template structure.
+Check the Actions tab and read the error. Most common causes: missing or empty required fields in `submission.yaml`, or invalid YAML indentation.
 
 ---
 
