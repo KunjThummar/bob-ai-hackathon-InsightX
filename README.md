@@ -1,6 +1,6 @@
-# 🚀 [Your Project Title Here]
+# 🚀 InsightX — Mission Readiness & Predictive Maintenance Copilot
 
-> ⚠️ **Replace everything in `[ ]` brackets with your actual content before submission.**
+> AI-powered fleet health monitoring dashboard built for the IBM Bob AI Hackathon.
 
 ---
 
@@ -8,36 +8,32 @@
 
 | Field | Value |
 |---|---|
-| **Team Name** | [Your Team Name] |
-| **Track** | [AI / DevOps / Sustainability / Open] |
-| **Team Lead** | [Name] — [email@ibm.com] |
-| **Members** | [Name 1], [Name 2], [Name 3] |
+| **Team Name** | InsightX |
+| **Track** | AI |
+| **Team Lead** | Daksh Vekariya — 24IT107@charusat.edu.in |
+| **Members** | Kunj Thummar (24ce128@charusat.edu.in), Jayrajsinh Barad (24ce006@charusat.edu.in), Harsh Thesiya (24it099@charusat.edu.in) |
 
 ---
 
 ## 🎯 Problem Statement
 
-> In 2–3 sentences: What problem does your project solve? Who experiences this problem?
-
-[Describe the real-world problem your project addresses. Be specific about who the user is and what pain point they face.]
+Defence and industrial fleets lack real-time, data-driven visibility into asset health. Maintenance engineers currently rely on fixed schedules and manual log reviews, causing unplanned failures, excessive downtime, and wasted maintenance budgets — with no early warning until a component is already critically degraded.
 
 ---
 
 ## 💡 Solution
 
-> In 2–3 sentences: What did you build? How does it solve the problem above?
-
-[Describe your solution clearly. Explain the core mechanism — what makes it work.]
+InsightX ingests turbofan engine telemetry (NASA C-MAPSS FD001), applies a Random Forest RUL predictor and Isolation Forest anomaly detector, and surfaces a per-asset **Mission Readiness score (0–100)** with priority-ranked maintenance actions. A Google Gemini-powered **AI Copilot** then translates ML outputs into natural-language health summaries that non-expert users can act on immediately.
 
 ---
 
 ## ✨ Key Features
 
-- **Feature 1:** [Brief description — e.g., "Real-time anomaly detection using watsonx.ai"]
-- **Feature 2:** [Brief description]
-- **Feature 3:** [Brief description]
-- **Feature 4:** [Optional]
-- **Feature 5:** [Optional]
+- **Mission Readiness Score:** Real-time 0–100 composite health score (`0.6 × RUL_Score + 0.4 × Anomaly_Health`) for all 200 fleet assets, categorised as READY / CAUTION / CRITICAL
+- **Predictive RUL Estimation:** Random Forest model trained on NASA C-MAPSS FD001 with 10-cycle rolling feature engineering (MAE ≈ 24 cycles, R² ≈ 0.75)
+- **Anomaly Detection:** Isolation Forest with severity calibration and per-sensor evidence highlighting to show exactly which sensors are abnormal
+- **Priority Maintenance Plan:** Fleet-wide HIGH / MEDIUM / LOW maintenance queue with per-asset recommendations and priority scores
+- **AI Copilot:** Google Gemini generates natural-language health summaries — explanatory only, never overrides ML outputs
 
 ---
 
@@ -45,51 +41,100 @@
 
 | Category | Technologies |
 |---|---|
-| **Languages** | [e.g., Python, TypeScript] |
-| **Frameworks** | [e.g., FastAPI, React] |
-| **IBM Technologies** | [e.g., watsonx.ai, IBM Bob, IBM Cloud] |
-| **Databases** | [e.g., PostgreSQL, Redis] |
-| **Other** | [e.g., Docker, GitHub Actions] |
+| **Languages** | Python, JavaScript (React/JSX) |
+| **Frameworks** | FastAPI, React 18, Vite, React Router, Recharts |
+| **IBM Technologies** | IBM Bob AI Hackathon Platform |
+| **ML / AI** | scikit-learn (RandomForestRegressor, IsolationForest, RobustScaler), Google Gemini (google-genai) |
+| **Data** | pandas, NumPy, NASA C-MAPSS FD001 (via HuggingFace) |
+| **Other** | Uvicorn, GitHub Actions |
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-├── src/                  # All source code
-├── docs/                 # Written documentation
+bob-ai-hackathon-InsightX/
+├── src/                        # All source code
+│   ├── backend/                # FastAPI + ML (Python)
+│   │   ├── app/
+│   │   │   ├── main.py         # FastAPI entry point
+│   │   │   ├── routes/         # API endpoint handlers
+│   │   │   ├── services/       # ML inference, Gemini, dataset logic
+│   │   │   ├── models/         # Pre-trained .pkl model files
+│   │   │   └── data/           # NASA C-MAPSS FD001 CSV
+│   │   └── scripts/            # Dataset download + model training
+│   └── frontend/               # React 18 + Vite dashboard
+│       └── src/
+│           ├── pages/          # Dashboard, Fleet, Maintenance, Copilot, etc.
+│           └── components/     # Reusable UI components
+├── docs/                       # Written documentation
 │   ├── problem-statement.md
 │   ├── solution-overview.md
 │   ├── architecture.md
 │   └── setup-guide.md
-├── demo/                 # Demo artifacts
-│   ├── screenshots/      # App screenshots
-│   └── demo-video-link.txt  # Link to demo video
-├── presentation/         # Slide deck
-└── submission.yaml       # Structured submission metadata
+├── demo/                       # Demo artifacts
+│   ├── screenshots/
+│   └── demo-video-link.txt
+├── presentation/               # Slide deck
+└── submission.yaml             # Structured submission metadata
 ```
 
 ---
 
 ## ⚡ How to Run
 
-> **Copy these exact steps from your [`docs/setup-guide.md`](docs/setup-guide.md)**
+> Full step-by-step instructions with troubleshooting in [`docs/setup-guide.md`](docs/setup-guide.md)
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/[your-repo].git
-cd [your-repo]
+git clone https://github.com/KunjThummar/bob-ai-hackathon-InsightX.git
+cd bob-ai-hackathon-InsightX/src
 
-# 2. Install dependencies
-[your install command here]
+# 2. Backend — create venv and install dependencies
+cd backend
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+# source .venv/bin/activate   # macOS/Linux
+pip install -r requirements.txt
 
-# 3. Configure environment
-cp .env.example .env
-# Edit .env with your values
+# 3. Dataset + Models (skip if .pkl files already exist in backend/app/models/)
+python scripts/download_dataset.py
+python scripts/train_models.py
 
-# 4. Run the project
-[your run command here]
+# 4. Create backend/.env
+# GEMINI_API_KEY=your_key_here      (optional — Copilot works without it)
+# GEMINI_MODEL=gemini-2.5-flash
+# CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+
+# 5. Frontend
+cd ../frontend
+npm install
+
+# 6. Run both servers (two terminals)
+# Terminal 1 — Backend:
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Terminal 2 — Frontend:
+npm run dev
 ```
+
+| Service | URL |
+|---|---|
+| **App (Frontend)** | http://localhost:5173 |
+| **Backend API** | http://localhost:8000 |
+| **Swagger / API Docs** | http://localhost:8000/docs |
+| **Health Check** | http://localhost:8000/api/health |
+
+### Pages
+
+| Route | Description |
+|---|---|
+| `/` | Dashboard — fleet KPI cards, readiness chart, top-risk assets |
+| `/fleet` | Searchable, filterable, sortable table of all 200 assets |
+| `/assets/:id` | Detailed health report, sensor evidence, 10-cycle telemetry history |
+| `/maintenance` | Priority-ranked maintenance plan (HIGH / MEDIUM / LOW) |
+| `/custom-prediction` | Manual 10-cycle telemetry entry + CSV upload |
+| `/copilot` | Asset selector + Gemini AI health explanation |
 
 ---
 
@@ -100,22 +145,24 @@ cp .env.example .env
 | 📹 Demo Video | [See demo/demo-video-link.txt](demo/demo-video-link.txt) |
 | 🌐 Live Demo | [See demo/live-demo-url.txt](demo/live-demo-url.txt) |
 | 🖼️ Screenshots | [See demo/screenshots/](demo/screenshots/) |
-| 📊 Presentation | [See presentation/slides.pdf](presentation/) |
+| 📊 Presentation | [See presentation/](presentation/) |
 
 ---
 
 ## ⚠️ Known Limitations
 
-> Be honest — judges appreciate transparency over overclaiming.
-
-- [Limitation 1: e.g., "Authentication is mocked — not production-ready"]
-- [Limitation 2: e.g., "Only tested on Chrome"]
-- [Limitation 3: e.g., "Feature X is scaffolded but not fully implemented"]
+- **Simulated data:** NASA C-MAPSS FD001 is a benchmark dataset, not real military or industrial fleet telemetry
+- **Model accuracy:** RUL model validation shows MAE ≈ 24 cycles and R² ≈ 0.75 — prototype grade, not production certified
+- **Prototype thresholds:** Readiness weights (0.6/0.4) and category thresholds are design choices that need domain-expert validation
+- **No authentication:** All API routes are open — the system is decision support only, not authorised for operational use
+- **Train engines appear CRITICAL:** C-MAPSS train set engines run to failure (RUL = 0) by dataset design, so they always show CRITICAL status
 
 ---
 
 ## 🏅 What We're Most Proud Of
 
-[Tell the judges what part of your submission is strongest and worth paying close attention to.]
+The **end-to-end ML pipeline** faithfully reproduces the NASA C-MAPSS notebook methodology: rolling feature engineering across 15 sensors, a well-calibrated IsolationForest anomaly detector with severity scoring, and a composite Mission Readiness formula that blends RUL and anomaly health into a single actionable metric.
+
+The **Gemini Copilot layer** is designed to be genuinely useful without being dishonest — it generates natural-language explanations from ML outputs but is strictly constrained to never invent failures, change classifications, or override numbers. This keeps the system auditable and trustworthy.
 
 ---
